@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>📖 书籍 - 以雷为范</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="sidebar-left">
+    <a href="../index.html">🏠主页</a>
+    <a href="index.html">📖书籍</a>
+    <a href="../gallery/index.html">📷图像</a>
+    <a href="../audio/index.html">🔊音频</a>
+    <a href="#">🚧建设中</a>
+  </div>
+  <div class="main-content">
+    <h1>📖 书籍</h1>
+    <input type="text" id="search-box" class="search-box" placeholder="搜索书籍...">
+    <div id="books-list" class="grid-container"></div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>联系我：<a href="mailto:fengrunfan@gmail.com">fengrunfan@gmail.com</a></span>
+        <span>我的Bilibili主页：<a href="https://space.bilibili.com/1578085996?spm_id_from=333.1007.0.0" target="_blank">范雷_</a></span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+let allBooks = [];
+fetch('../assets/books/book.json')
+  .then(r => r.json())
+  .then(data => { allBooks = data; displayBooks(allBooks); });
+
+function displayBooks(list){
+  const container = document.getElementById('books-list');
+  container.innerHTML = '';
+  list.forEach(b => {
+    const card = document.createElement('div');
+    card.className = 'grid-card';
+
+    const cover = document.createElement('img');
+    cover.src = '../assets/books/' + b.name + '/cover.jpg';
+    cover.alt = b.name;
+    cover.className = 'book-cover';
+    card.appendChild(cover);
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'book-info';
+    [['name','书名'],['author','作者'],['publisher','出版社'],['year','写作时间']].forEach(k=>{
+      const p = document.createElement('p');
+      p.textContent = k[1]+ '：'+ b[k[0]];
+      infoDiv.appendChild(p);
+    });
+    card.appendChild(infoDiv);
+
+    const btnGroup = document.createElement('div');
+    btnGroup.className = 'button-card-group';
+
+    const viewBtn = document.createElement('a');
+    viewBtn.href = '../assets/books/' + b.name + '/book.pdf';
+    viewBtn.target = '_blank';
+    viewBtn.className = 'button-card';
+    viewBtn.textContent = '查看';
+    btnGroup.appendChild(viewBtn);
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.href = '../assets/books/' + b.name + '/book.pdf';
+    downloadBtn.download = b.name + '.pdf';
+    downloadBtn.className = 'button-card';
+    downloadBtn.textContent = '下载';
+    btnGroup.appendChild(downloadBtn);
+
+    card.appendChild(btnGroup);
+    container.appendChild(card);
+  });
+}
+
+document.getElementById('search-box').addEventListener('input', e=>{
+  const k = e.target.value.toLowerCase();
+  displayBooks(allBooks.filter(b=>['name','author','publisher','year'].some(x=>b[x].toLowerCase().includes(k))));
+});
+</script>
+</body>
+</html>

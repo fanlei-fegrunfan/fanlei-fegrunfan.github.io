@@ -1,0 +1,279 @@
+/* 通用样式 */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f0f0f5;
+  color: #333;
+}
+
+a {
+  color: #007aff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* 容器和布局 */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar-left {
+  width: 120px;
+  background: #fff;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+}
+.sidebar-left a {
+  margin: 15px 0;
+  font-size: 18px;
+  text-align: center;
+}
+.main-content {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* 封面头像 */
+.cover-section {
+  width: 100%;
+  height: 250px;
+  background: center/cover no-repeat url('../assets/cover.jpg');
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.avatar-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: -75px auto 10px;
+  z-index: 2;
+}
+.avatar {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* 用户名和简介 */
+.username {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0 5px 0;
+}
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+/* 首页资源入口 */
+.home-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+.home-card {
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+  padding: 15px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: #007aff;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.home-card:hover {
+  background: #e6f0ff;
+}
+
+/* 搜索栏 */
+.search-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-box:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 2px rgba(0,122,255,0.2) inset;
+}
+
+/* 网格卡片 (书籍) */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap: 20px;
+}
+.grid-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: left;
+}
+.book-cover {
+  width: 100%;
+  height: 250px;
+  object-fit: cover; /* 裁切封面 */
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.book-cover:hover {
+  transform: scale(1.02);
+}
+.book-info {
+  flex: 1;
+}
+.book-info p {
+  margin: 4px 0;
+}
+.button-card-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+.button-card {
+  flex: 1;
+  text-align: center;
+  background: #007aff;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.button-card:hover {
+  background: #005bb5;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 图像卡片 */
+.gallery-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.gallery-img:hover {
+  transform: scale(1.02);
+}
+.image-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+.image-download {
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* 弹窗大图 */
+#image-modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+#image-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* 音频卡片 */
+.audio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.audio-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.audio-title {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+audio {
+  width: calc(100% - 80px);
+  border-radius: 8px;
+  outline: none;
+  vertical-align: middle;
+}
+.audio-download {
+  display: inline-block;
+  margin-left: 10px;
+  background: #007aff;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+}
+.audio-download:hover {
+  background: #005bb5;
+}
+
+/* 页脚 */
+.footer {
+  text-align:center;
+  margin-top:30px;
+  font-size:14px;
+  color:#555;
+}
+.footer-content {
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+}
+.footer-content span a {
+  color:#007aff;
+  text-decoration:none;
+}
+.footer-content span a:hover {
+  text-decoration:underline;
+}

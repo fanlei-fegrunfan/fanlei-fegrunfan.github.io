@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>📷 图像 - 以雷为范</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="sidebar-left">
+    <a href="../index.html">🏠主页</a>
+    <a href="../document/index.html">📖书籍</a>
+    <a href="index.html">📷图像</a>
+    <a href="../audio/index.html">🔊音频</a>
+    <a href="#">🚧建设中</a>
+  </div>
+  <div class="main-content">
+    <h1>📷 图像</h1>
+    <input type="text" id="search-box" class="search-box" placeholder="搜索图像...">
+    <div id="gallery-list" class="grid-container"></div>
+
+    <div id="image-modal" onclick="this.style.display='none'">
+      <img src="" alt="">
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>联系我：<a href="mailto:fengrunfan@gmail.com">fengrunfan@gmail.com</a></span>
+        <span>我的Bilibili主页：<a href="https://space.bilibili.com/1578085996?spm_id_from=333.1007.0.0" target="_blank">范雷_</a></span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+let allImages = [];
+fetch('../assets/images/image.json')
+  .then(r => r.json())
+  .then(data => { allImages = data; displayImages(allImages); });
+
+function displayImages(list){
+  const container = document.getElementById('gallery-list');
+  container.innerHTML = '';
+  list.forEach(img=>{
+    const card = document.createElement('div');
+    card.className = 'grid-card';
+
+    const image = document.createElement('img');
+    image.src = '../assets/images/' + img.file;
+    image.alt = img.code;
+    image.className = 'gallery-img';
+    image.onclick = (e)=>{
+      const modal = document.getElementById('image-modal');
+      modal.style.display = 'flex';
+      modal.querySelector('img').src = image.src;
+    };
+    card.appendChild(image);
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'image-info';
+    const code = document.createElement('span'); code.textContent = '图像编码：'+img.code;
+    const time = document.createElement('span'); time.textContent = img.time;
+    const loc = document.createElement('span'); loc.textContent = img.location;
+    infoDiv.appendChild(code); infoDiv.appendChild(time); infoDiv.appendChild(loc);
+    card.appendChild(infoDiv);
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.href = '../assets/images/' + img.file;
+    downloadBtn.download = img.code;
+    downloadBtn.className = 'audio-download';
+    downloadBtn.textContent = '下载';
+    card.appendChild(downloadBtn);
+
+    container.appendChild(card);
+  });
+}
+
+document.getElementById('search-box').addEventListener('input', e=>{
+  const k = e.target.value.toLowerCase();
+  displayImages(allImages.filter(img=>[img.code,img.time,img.location].some(x=>x.toLowerCase().includes(k))));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>🔊 音频 - 以雷为范</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="sidebar-left">
+    <a href="../index.html">🏠主页</a>
+    <a href="../document/index.html">📖书籍</a>
+    <a href="../gallery/index.html">📷图像</a>
+    <a href="index.html">🔊音频</a>
+    <a href="#">🚧建设中</a>
+  </div>
+  <div class="main-content">
+    <h1>🔊 音频</h1>
+    <input type="text" id="search-box" class="search-box" placeholder="搜索音频...">
+    <div id="audio-list" class="audio-container"></div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>联系我：<a href="mailto:fengrunfan@gmail.com">fengrunfan@gmail.com</a></span>
+        <span>我的Bilibili主页：<a href="https://space.bilibili.com/1578085996?spm_id_from=333.1007.0.0" target="_blank">范雷_</a></span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+let allAudio = [];
+fetch('../assets/sounds/sound.json')
+  .then(r=>r.json())
+  .then(data=>{ allAudio = data; displayAudio(allAudio); });
+
+function displayAudio(list){
+  const container = document.getElementById('audio-list');
+  container.innerHTML = '';
+  list.forEach(a=>{
+    const card = document.createElement('div');
+    card.className = 'audio-card';
+
+    const title = document.createElement('div');
+    title.className = 'audio-title';
+    title.textContent = a.content;
+
+    const player = document.createElement('audio');
+    player.controls = true;
+    player.src = '../assets/sounds/' + a.file;
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.href = '../assets/sounds/' + a.file;
+    downloadBtn.download = a.content;
+    downloadBtn.className = 'audio-download';
+    downloadBtn.textContent = '下载';
+
+    card.appendChild(title);
+    card.appendChild(player);
+    card.appendChild(downloadBtn);
+
+    container.appendChild(card);
+  });
+}
+
+document.getElementById('search-box').addEventListener('input', e=>{
+  const k = e.target.value.toLowerCase();
+  displayAudio(allAudio.filter(a=>a.content.toLowerCase().includes(k)));
+});
+</script>
+</body>
+</html>
