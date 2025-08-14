@@ -4,6 +4,71 @@
 <meta charset="UTF-8">
 <title>📷 图像 - 以雷为范</title>
 <link rel="stylesheet" href="../css/style.css">
+<style>
+/* 图像信息垂直排列 */
+.image-info {
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+  gap: 2px;
+}
+
+/* 弹窗样式 */
+#image-modal {
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#image-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+}
+
+/* 下载按钮样式 */
+.audio-download, .image-download {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 6px 12px;
+  background:#007aff;
+  color:#fff;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:14px;
+  transition: background 0.3s;
+}
+
+.audio-download:hover, .image-download:hover {
+  background:#005bb5;
+}
+
+/* 搜索栏 */
+.search-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 16px;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+.search-box:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 5px rgba(0,122,255,0.5);
+}
+</style>
 </head>
 <body>
 <div class="container">
@@ -49,25 +114,36 @@ function displayImages(list){
     image.src = '../assets/images/' + img.file;
     image.alt = img.code;
     image.className = 'gallery-img';
-    image.onclick = (e)=>{
+    image.onclick = ()=>{
       const modal = document.getElementById('image-modal');
       modal.style.display = 'flex';
       modal.querySelector('img').src = image.src;
     };
     card.appendChild(image);
 
+    // 垂直显示图像信息
     const infoDiv = document.createElement('div');
     infoDiv.className = 'image-info';
-    const code = document.createElement('span'); code.textContent = '图像编码：'+img.code;
-    const time = document.createElement('span'); time.textContent = img.time;
-    const loc = document.createElement('span'); loc.textContent = img.location;
-    infoDiv.appendChild(code); infoDiv.appendChild(time); infoDiv.appendChild(loc);
+
+    const code = document.createElement('div');
+    code.textContent = '图像编码：' + img.code;
+    infoDiv.appendChild(code);
+
+    const time = document.createElement('div');
+    time.textContent = '拍摄时间：' + img.time;
+    infoDiv.appendChild(time);
+
+    const loc = document.createElement('div');
+    loc.textContent = '拍摄地点：' + img.location;
+    infoDiv.appendChild(loc);
+
     card.appendChild(infoDiv);
 
+    // 下载按钮
     const downloadBtn = document.createElement('a');
     downloadBtn.href = '../assets/images/' + img.file;
     downloadBtn.download = img.code;
-    downloadBtn.className = 'audio-download';
+    downloadBtn.className = 'image-download';
     downloadBtn.textContent = '下载';
     card.appendChild(downloadBtn);
 
